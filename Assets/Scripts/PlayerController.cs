@@ -6,14 +6,11 @@ using UnityEngine.UI;
 public class PlayerController : MonoBehaviour
 {
     public float speed = 10;
-
     public int bombNumber = 4;
-
 
     public GameObject bomb;
 
     private Rigidbody rb;
-
     
     private Vector3 lastBombPosition;
 

@@ -9,11 +9,13 @@ public class BoardController : MonoBehaviour
 
     public GameObject floorTile;
     public GameObject wallTile;
+    public GameObject softTile;
 
     private Transform boardHolder;
     private Transform floorHolder;
     private Transform outerWallHolder;
     private Transform innerWallHolder;
+    private Transform softBlockHolder;
 
     private void Start()
     {
@@ -59,13 +61,28 @@ public class BoardController : MonoBehaviour
         innerWallHolder = new GameObject("InnerWall").transform;
         innerWallHolder.SetParent(boardHolder);
 
-        for (int x = 1; x <= columns - 1; x+=2)
+        softBlockHolder = new GameObject("SoftBlock").transform;
+        softBlockHolder.SetParent(boardHolder);
+
+        for (int x = 0; x <= columns; x++)
         {
-            for (int y = 1; y <= rows -1; y+=2)
-            {                
-                Instantiate(wallTile, new Vector3(x, 0.5f, y), Quaternion.identity)
+            for (int y = 0; y <= rows; y++)
+            {
+                if (x % 2 != 0 && y % 2 != 0)
+                {
+                    Instantiate(wallTile, new Vector3(x, 0.5f, y), Quaternion.identity)
+                        .transform
+                        .SetParent(innerWallHolder);
+                }
+                else
+                {
+                    if (x <= 1 && y <= 1) {
+                        continue;
+                    }
+                    Instantiate(softTile, new Vector3(x, 0.5f, y), Quaternion.identity)
                     .transform
-                    .SetParent(innerWallHolder);                
+                    .SetParent(softBlockHolder);
+                }
             }
         }
     }
