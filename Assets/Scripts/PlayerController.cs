@@ -3,11 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/*
+ * Player script controlling the movement, 
+ * bomb placement and pickup interaction.
+ */
 public class PlayerController : MonoBehaviour
 {
+    /*
+     * Player movement speed
+     */
     public float speed = 10;
+
+    /*
+     * Amount of simultaneous number of placed bombs
+     */
     public int bombNumber = 4;
 
+    /*
+     * Bomb prefab reference
+     */ 
     public GameObject bomb;
 
     private Rigidbody rb;
@@ -52,28 +66,16 @@ public class PlayerController : MonoBehaviour
         {
             Debug.Log("Placing bomb on occupied postion, skipping.");
             return;
-        }
-
-        /*if(bombNumber == 0)
-        {
-            return;
         }        
-
-        bombNumber--;
-         */
          
         Instantiate(bomb, lastBombPosition = position, bomb.transform.rotation);
     }
 
     void OnTriggerEnter(Collider other)
     {
-        /*
-        if (other.gameObject.CompareTag("Pickup"))
+        if (other.gameObject.CompareTag("Pick up"))
         {
             other.gameObject.SetActive(false);
-            count++;
-            countText.text = "Score: " + count.ToString();
         }
-        */
     }
 }

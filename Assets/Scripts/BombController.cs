@@ -8,25 +8,31 @@ public class BombController : MonoBehaviour
     public LayerMask softBlocks;
     public LayerMask solidBlocks;
 
+    /*
+     * Bomb timer before exploding after being placed
+     */
     public float timer = 2f;
+
+    /*
+     * Explosion tile radius.
+     */ 
     public int radius = 2;
 
+    /*
+     * Decay defines the timer in which the
+     * bomb will be removed after exploded.
+     */
     private readonly float decay = .2f;
     private bool exploded = false;
 
+    /*
+     * Explode a bomb when the timer expires
+     */
     void Start()
     {
         Invoke("Explode", timer);
     }
 
-    void Update()
-    {
-        
-    }
-
-    /*
-     * Explode a bomb when the timer expires
-     */ 
     void Explode()
     {
         CreateExplosion();
@@ -39,7 +45,9 @@ public class BombController : MonoBehaviour
     }
 
     /*
-     * Create an explosion
+     * Create an explosion.
+     * Using the coroutine we will instantiate
+     * explosions in all directions.
      */
     void CreateExplosion()
     {
@@ -51,6 +59,10 @@ public class BombController : MonoBehaviour
         StartCoroutine(CreateExplosions(Vector3.left));
     }
     
+    /*
+     * Create an explosion in given direction,
+     * explosion is contained by the solid wall.
+     */ 
     private IEnumerator CreateExplosions(Vector3 direction)
     {
         RaycastHit softBlockHit;
@@ -61,6 +73,7 @@ public class BombController : MonoBehaviour
             Physics.Raycast(transform.position, direction, out solidBlockHit, i, solidBlocks);
             Physics.Raycast(transform.position, direction, out softBlockHit, i, softBlocks);
 
+            // Solid wall means no explosion
             if(solidBlockHit.collider)
             {
                 break;
@@ -68,6 +81,7 @@ public class BombController : MonoBehaviour
   
             Instantiate(explosion, transform.position + (i * direction), explosion.transform.rotation);
 
+            // Soft wall is destroyed by an explosion and will dampen it
             if (softBlockHit.collider)
             {
                 break;
@@ -77,11 +91,12 @@ public class BombController : MonoBehaviour
         }
     }
 
+    /*
+     * Getting in contact with an explosion will cause the
+     * bomb to explode, creating a chain reaction of explosions.  
+     */
     public void OnTriggerEnter(Collider other)
     {
-        /*
-         * Explosion causes chain reaction
-         */
         if (other.CompareTag("Explosion") && !exploded)
         {
             CancelInvoke("Explode"); 

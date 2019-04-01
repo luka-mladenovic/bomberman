@@ -282,6 +282,8 @@ MonoBehaviour:
     type: 3}
   wallTile: {fileID: 4961736268379887124, guid: ea8c249065e335f4ab6f25fec92737a3,
     type: 3}
+  softTile: {fileID: 3039689559001345446, guid: 001e4a6e8c8792e4094dd317ff396366,
+    type: 3}
 --- !u!1001 &5486243459144021231
 PrefabInstance:
   m_ObjectHideFlags: 0
